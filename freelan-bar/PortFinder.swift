@@ -1,6 +1,6 @@
 //
 //  PortFinder.swift
-//  syncthing-bar
+//  freelan-bar
 //
 //  Created by Andreas Streichardt on 13.12.14.
 //  Copyright (c) 2014 mop. All rights reserved.

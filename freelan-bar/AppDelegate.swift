@@ -12,9 +12,9 @@ import AppKit
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     //lazy var settingsWindowController = SettingsWindowController(windowNibName: "Settings")
-    var runner : SyncthingRunner?
-    var syncthingBar : SyncthingBar?
-    var log : SyncthingLog = SyncthingLog()
+    var runner : FreelanRunner?
+    var freelanBar : FreelanBar?
+    var log : FreelanLog = FreelanLog()
     
     func applicationWillFinishLaunching(aNotification: NSNotification?) {
         NSApp.setActivationPolicy(NSApplicationActivationPolicy.Accessory)
@@ -22,8 +22,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
-        syncthingBar = SyncthingBar(log: log)
-        runner = SyncthingRunner(log: log)
+        freelanBar = FreelanBar(log: log)
+        runner = FreelanRunner(log: log)
         let result = runner!.ensureRunning()
         if (result != nil) {
             let alert = NSAlert()
@@ -68,7 +68,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func tooManyErrors(sender : AnyObject) {
         let alert = NSAlert()
         alert.addButtonWithTitle("Ok :(")
-        alert.messageText = "Syncthing could not run. There were too many errors. Check log, and restart :("
+        alert.messageText = "Freelan could not run. There were too many errors. Check log, and restart :("
         alert.alertStyle = NSAlertStyle.WarningAlertStyle
         
         let response = alert.runModal()
@@ -79,15 +79,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             var host = notification.userInfo!["host"] as! NSString
             var port = notification.userInfo!["port"] as! NSString
             
-            syncthingBar!.enableUIOpener("http://\(host):\(port)")
+            freelanBar!.enableUIOpener("http://\(host):\(port)")
         } else {
-            syncthingBar!.disableUIOpener()
+            freelanBar!.disableUIOpener()
         }
     }
     
     func foldersDetermined(notification: NSNotification) {
-        if let folders = notification.userInfo!["folders"] as? Array<SyncthingFolder> {
-            syncthingBar!.setFolders(folders)
+        if let folders = notification.userInfo!["folders"] as? Array<FreelanFolder> {
+            freelanBar!.setFolders(folders)
         }
     }
     
