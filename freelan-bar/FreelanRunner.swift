@@ -5,15 +5,17 @@
 //  Created by Andreas Streichardt on 13.12.14.
 //  Copyright (c) 2014 mop. All rights reserved.
 //
+//  Adapted for freelan by Christoph Russ on 06. May 2015.
+//
 
 import Foundation
 
-let TooManyErrorsNotification = "koeln.mop.too-many-errors"
-let HttpChanged = "koeln.mop.http-changed"
-let FoldersDetermined = "koeln.mop.folders-determined"
+let TooManyErrorsNotification = "ccode.privacee.too-many-errors"
+let HttpChanged = "ccode.privacee.http-changed"
+let ContactsDetermined = "ccode.privacee.contacts-determined"
 
 class FreelanRunner: NSObject {
-    var portFinder : PortFinder = PortFinder(startPort: 8084)
+    var portFinder : PortFinder = PortFinder(startPort: 12000)
     var path : NSString
     //var path : NSString = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"binaryname"]"/Users/mop/Downloads/freelan-macosx-amd64-v0.10.8/freelan"
     var task: NSTask?
@@ -50,16 +52,15 @@ class FreelanRunner: NSObject {
         let versionOut = pipe.fileHandleForReading.readDataToEndOfFile()
         let versionString = NSString(data: versionOut, encoding: NSUTF8StringEncoding)
         
-        var regex = NSRegularExpression(pattern: "^freelan v(\\d+)\\.(\\d+)\\.(\\d+)",
+        var regex = NSRegularExpression(pattern: "^freelan (\\d+)\\.(\\d+)",
             options: nil, error: nil)
         var results = regex!.matchesInString(versionString! as String, options: nil, range: NSMakeRange(0, versionString!.length))
         if results.count == 1 {
             let major = versionString?.substringWithRange(results[0].rangeAtIndex(1)).toInt() as Int!
             let minor = versionString?.substringWithRange(results[0].rangeAtIndex(2)).toInt() as Int!
-            let patch = versionString?.substringWithRange(results[0].rangeAtIndex(3)).toInt() as Int!
             
-            version = [ major, minor, patch ]
-            println("Freelan version \(version![0]) \(version![1]) \(version![2])")
+            version = [ major, minor ]
+            println("Freelan version \(version![0]) \(version![1])")
             return true
         } else {
             return false
@@ -79,13 +80,10 @@ class FreelanRunner: NSObject {
         let port = self.port!
         let httpData : [String: String] = ["host": "127.0.0.1", "port": String(port)];
         
-        self.apiKey = randomStringWithLength(32);
-        
-        task!.arguments = ["-no-browser", "-gui-address=127.0.0.1:\(port)", "-gui-apikey=\(self.apiKey!)"]
+        task!.arguments = ["-f", "--configuration_file", "./freelan.cfg"]
         task!.standardOutput = pipe
         readHandle.waitForDataInBackgroundAndNotify()
         task!.launch()
-        
         
         // mop: wait until port is open :O
         portOpenTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "checkPortOpen:", userInfo: httpData, repeats: true)
@@ -147,8 +145,9 @@ class FreelanRunner: NSObject {
         return request
     }
     
-    func collectRepositories(timer: NSTimer) {
-        // mop: jaja copy paste...must fix somewhen
+    func collectContacts(timer: NSTimer) {
+        // TODO: read info from config file
+        /*
         if let info = timer.userInfo as? Dictionary<String,String> {
             let host = info["host"]
             let port = info["port"]
@@ -156,62 +155,37 @@ class FreelanRunner: NSObject {
             var request: NSMutableURLRequest
             var idElement: NSString
             var pathElement: NSString
-            var foldersElement: NSString
-            if version![0] == 0 && version![1] == 10 {
-                request = createRequest("/rest/config")
-                idElement = "Id"
-                pathElement = "Path"
-                foldersElement = "Folders"
-            } else {
-                request = createRequest("/rest/system/config")
-                idElement = "id"
-                pathElement = "path"
-                foldersElement = "folders"
-            }
-            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) {(response, data, error) in
-                if (error != nil) {
-                    println("Got error collecting repositories \(error)")
-                    return;
-                }
-                let httpResponse = response as? NSHTTPURLResponse;
-                if httpResponse == nil {
-                    println("Unexpected response");
-                    return;
-                }
+            var contactsElement: NSString
+            
+            let contactStructArr = contacts!.filter({(object: AnyObject) -> (Bool) in
+                let id = object[idElement] as? String
+                let path = object[pathElement] as? String
                 
-                if httpResponse!.statusCode != 200 {
-                    println("Got non 200 HTTP Response \(httpResponse!.statusCode)");
-                    return;
-                }
-                if (error == nil) {
-                    var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
-                    
-                    // mop: WTF am i typing :S
-                    let folders = jsonResult[foldersElement] as? Array<AnyObject>
-                    if folders != nil {
-                        let folderStructArr = folders!.filter({(object: AnyObject) -> (Bool) in
-                            let id = object[idElement] as? String
-                            let path = object[pathElement] as? String
-                            
-                            return id != nil && path != nil
-                        }).map({(object: AnyObject) -> (FreelanFolder) in
-                            let id = object[idElement] as? String
-                            let pathTemp = object[pathElement] as? String
-                            let path = pathTemp?.stringByExpandingTildeInPath
-                                                        
-                            return FreelanFolder(id: id!, path: path!)
-                        })
-                        
-                        let folderData = ["folders": folderStructArr]
-                        self.notificationCenter.postNotificationName(FoldersDetermined, object: self, userInfo: folderData)
-                    } else {
-                        println("Failed to parse folders :(")
-                    }
-                } else {
-                    println("Got error collecting repositories \(error)")
-                }
-            }
+                return id != nil && path != nil
+            }).map({(object: AnyObject) -> (FreelanContact) in
+                let id = object[idElement] as? String
+                let pathTemp = object[pathElement] as? String
+                let path = pathTemp?.stringByExpandingTildeInPath
+                
+                return FreelanContact(id: id!, path: path!)
+            })
+            
+            let contactData = ["contacts": contactStructArr]
+            self.notificationCenter.postNotificationName(ContactsDetermined, object: self, userInfo: contactData)
+            
         }
+        */
+        
+        // TESTING ONLY >..<
+        
+        var contact = FreelanContact(id: "1234", address: "120.130.140.150:12001")
+        var contactStructArr = [FreelanContact](count: 1, repeatedValue: contact)
+        
+        let contactData = ["contacts": contactStructArr]
+        
+        self.notificationCenter.postNotificationName(ContactsDetermined, object: self, userInfo: contactData)
+        
+        
     }
     
     func checkPortOpen(timer: NSTimer) {
@@ -219,8 +193,8 @@ class FreelanRunner: NSObject {
             if let info = timer.userInfo as? Dictionary<String,String> {
                 let host = info["host"]
                 let port = info["port"]
-                let url = NSURL(string: "http://\(host!):\(port!)/rest/version")
-                let request = createRequest("/rest/version")
+                let url = NSURL(string: "http://\(host!):\(port!)")
+                let request = createRequest("")
                 
                 NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) {(response, data, error) in
                     if (error == nil) {
@@ -229,7 +203,7 @@ class FreelanRunner: NSObject {
                         if (self.portOpenTimer!.valid) {
                             self.portOpenTimer!.invalidate()
                         }
-                        self.repositoryCollectorTimer = NSTimer.scheduledTimerWithTimeInterval(10.0, target: self, selector: "collectRepositories:", userInfo: info, repeats: true)
+                        self.repositoryCollectorTimer = NSTimer.scheduledTimerWithTimeInterval(10.0, target: self, selector: "collectContacts:", userInfo: info, repeats: true)
                         self.repositoryCollectorTimer!.fire()
                     }
                 }
@@ -263,6 +237,8 @@ class FreelanRunner: NSObject {
             }
         }
         lastFail = current
+        
+        // RESTARTING to see if it may work this time ...
         run()
     }
     

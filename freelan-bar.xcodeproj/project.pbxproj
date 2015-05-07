@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F11BC9B11A3E20CA00360C2E /* freelan in Resources */ = {isa = PBXBuildFile; fileRef = F11BC9B01A3E20CA00360C2E /* freelan */; };
-		F11BC9B31A3E45E100360C2E /* FreelanFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11BC9B21A3E45E100360C2E /* FreelanFolder.swift */; };
+		F11BC9B31A3E45E100360C2E /* FreelanContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11BC9B21A3E45E100360C2E /* FreelanContact.swift */; };
 		F1A2BD431A6178620014473E /* freelan-bar.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F1A2BD421A6178620014473E /* freelan-bar.pdf */; };
 		F1A4E42D1A4587C300602986 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1A4E42B1A4587C300602986 /* Main.storyboard */; };
 		F1B099071A3C40AD00B79D31 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B099061A3C40AD00B79D31 /* AppDelegate.swift */; };
@@ -34,7 +34,7 @@
 
 /* Begin PBXFileReference section */
 		F11BC9B01A3E20CA00360C2E /* freelan */ = {isa = PBXFileReference; lastKnownFileType = folder; path = freelan; sourceTree = "<group>"; };
-		F11BC9B21A3E45E100360C2E /* FreelanFolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreelanFolder.swift; sourceTree = "<group>"; };
+		F11BC9B21A3E45E100360C2E /* FreelanContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreelanContact.swift; sourceTree = "<group>"; };
 		F1A2BD421A6178620014473E /* freelan-bar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "freelan-bar.pdf"; sourceTree = "<group>"; };
 		F1A4E42C1A4587C300602986 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "freelan-bar/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
 		F1B099011A3C40AD00B79D31 /* freelan-bar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "freelan-bar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,7 +109,7 @@
 				F1B099291A3C764400B79D31 /* FreelanRunner.swift */,
 				F1B0992B1A3C77FC00B79D31 /* PortFinder.swift */,
 				F1EE75F91A3D76B70028E6DD /* FreelanBar.swift */,
-				F11BC9B21A3E45E100360C2E /* FreelanFolder.swift */,
+				F11BC9B21A3E45E100360C2E /* FreelanContact.swift */,
 				F1C594E41A3ED8830048CF9F /* FreelanLog.swift */,
 				F1F8A6371A4016180049AFC1 /* LogWindow.xib */,
 			);
@@ -257,7 +257,7 @@
 				F1B099071A3C40AD00B79D31 /* AppDelegate.swift in Sources */,
 				F1EE75FA1A3D76B70028E6DD /* FreelanBar.swift in Sources */,
 				F1C594E51A3ED8830048CF9F /* FreelanLog.swift in Sources */,
-				F11BC9B31A3E45E100360C2E /* FreelanFolder.swift in Sources */,
+				F11BC9B31A3E45E100360C2E /* FreelanContact.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -34,7 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.quit()
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "tooManyErrors:", name: TooManyErrorsNotification, object: runner)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "foldersDetermined:", name: FoldersDetermined, object: runner)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "contactsDetermined:", name: ContactsDetermined, object: runner)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "httpChanged:", name: HttpChanged, object: runner)
     }
     
@@ -85,9 +85,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func foldersDetermined(notification: NSNotification) {
-        if let folders = notification.userInfo!["folders"] as? Array<FreelanFolder> {
-            freelanBar!.setFolders(folders)
+    func contactsDetermined(notification: NSNotification) {
+        if let contacts = notification.userInfo!["contacts"] as? Array<FreelanContact> {
+            freelanBar!.setContacts(contacts)
         }
     }
     

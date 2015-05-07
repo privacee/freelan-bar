@@ -8,7 +8,7 @@
 
 import Cocoa
 
-let FolderTag = 1
+let ContactTag = 1
 
 class FreelanBar: NSObject {
     var statusBar: NSStatusBar = NSStatusBar.systemStatusBar()
@@ -69,34 +69,34 @@ class FreelanBar: NSObject {
         openUIItem.enabled = false
     }
     
-    func setFolders(folders: Array<FreelanFolder>) {
+    func setContacts(contacts: Array<FreelanContact>) {
         // mop: should probably check if anything changed ... but first simple stupid :S
-        var item = menu.itemWithTag(FolderTag)
+        var item = menu.itemWithTag(ContactTag)
         while (item != nil) {
             menu.removeItem(item!)
-            item = menu.itemWithTag(FolderTag)
+            item = menu.itemWithTag(ContactTag)
         }
         
         // mop: maybe findByTag instead of hardcoded number?
         var startInsertIndex = 2
-        var folderCount = 0
-        for folder in folders {
-            var folderItem : NSMenuItem = NSMenuItem()
-            folderItem.title = "Open \(folder.id) in Finder"
-            folderItem.representedObject = folder
-            folderItem.action = Selector("openFolderAction:")
-            folderItem.enabled = true
-            folderItem.tag = FolderTag
-            folderItem.target = self
-            menu.insertItem(folderItem, atIndex: startInsertIndex + folderCount++)
+        var contactCount = 0
+        for contact in contacts {
+            var contactItem : NSMenuItem = NSMenuItem()
+            contactItem.title = "Open \(contact.id) in Finder"
+            contactItem.representedObject = contact
+            contactItem.action = Selector("openContactAction:")
+            contactItem.enabled = true
+            contactItem.tag = ContactTag
+            contactItem.target = self
+            menu.insertItem(contactItem, atIndex: startInsertIndex + contactCount++)
         }
         
-        // mop: only add if there were folders (we already have a separator after "Open UI")
-        if (folderCount > 0) {
+        // mop: only add if there were contacts (we already have a separator after "Open UI")
+        if (contactCount > 0) {
             var lowerSeparator = NSMenuItem.separatorItem()
             // mop: well a bit hacky but we need to clear this one as well ;)
-            lowerSeparator.tag = FolderTag
-            menu.insertItem(lowerSeparator, atIndex: startInsertIndex + folderCount)
+            lowerSeparator.tag = ContactTag
+            menu.insertItem(lowerSeparator, atIndex: startInsertIndex + contactCount)
         }
     }
     
@@ -106,9 +106,9 @@ class FreelanBar: NSObject {
         }
     }
     
-    func openFolderAction(sender: AnyObject) {
-        let folder = (sender as! NSMenuItem).representedObject as! FreelanFolder
-        NSWorkspace.sharedWorkspace().openURL(NSURL(string: "file://\(folder.path)")!)
+    func openContactAction(sender: AnyObject) {
+        let contact = (sender as! NSMenuItem).representedObject as! FreelanContact
+        NSWorkspace.sharedWorkspace().openURL(NSURL(string: "file://\(contact.address)")!)
     }
     
     func openLogAction(sender: AnyObject) {
