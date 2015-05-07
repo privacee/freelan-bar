@@ -1,6 +1,6 @@
 //
-//  SyncthingRunner.swift
-//  syncthing-bar
+//  FreelanRunner.swift
+//  freelan-bar
 //
 //  Created by Andreas Streichardt on 13.12.14.
 //  Copyright (c) 2014 mop. All rights reserved.
@@ -12,10 +12,10 @@ let TooManyErrorsNotification = "koeln.mop.too-many-errors"
 let HttpChanged = "koeln.mop.http-changed"
 let FoldersDetermined = "koeln.mop.folders-determined"
 
-class SyncthingRunner: NSObject {
+class FreelanRunner: NSObject {
     var portFinder : PortFinder = PortFinder(startPort: 8084)
     var path : NSString
-    //var path : NSString = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"binaryname"]"/Users/mop/Downloads/syncthing-macosx-amd64-v0.10.8/syncthing"
+    //var path : NSString = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"binaryname"]"/Users/mop/Downloads/freelan-macosx-amd64-v0.10.8/freelan"
     var task: NSTask?
     var port: NSInteger?
     var lastFail : NSDate?
@@ -23,14 +23,14 @@ class SyncthingRunner: NSObject {
     var notificationCenter: NSNotificationCenter = NSNotificationCenter.defaultCenter()
     var portOpenTimer : NSTimer?
     var repositoryCollectorTimer : NSTimer?
-    var log : SyncthingLog
+    var log : FreelanLog
     var buf : NSString = NSString()
     var apiKey: NSString?
     var version: [Int]?
 
-    init(log: SyncthingLog) {
+    init(log: FreelanLog) {
         self.log = log
-        path = NSBundle.mainBundle().pathForResource("syncthing/syncthing", ofType: "")!
+        path = NSBundle.mainBundle().pathForResource("freelan/freelan", ofType: "")!
         
         super.init()
     
@@ -50,7 +50,7 @@ class SyncthingRunner: NSObject {
         let versionOut = pipe.fileHandleForReading.readDataToEndOfFile()
         let versionString = NSString(data: versionOut, encoding: NSUTF8StringEncoding)
         
-        var regex = NSRegularExpression(pattern: "^syncthing v(\\d+)\\.(\\d+)\\.(\\d+)",
+        var regex = NSRegularExpression(pattern: "^freelan v(\\d+)\\.(\\d+)\\.(\\d+)",
             options: nil, error: nil)
         var results = regex!.matchesInString(versionString! as String, options: nil, range: NSMakeRange(0, versionString!.length))
         if results.count == 1 {
@@ -59,7 +59,7 @@ class SyncthingRunner: NSObject {
             let patch = versionString?.substringWithRange(results[0].rangeAtIndex(3)).toInt() as Int!
             
             version = [ major, minor, patch ]
-            println("Syncthing version \(version![0]) \(version![1]) \(version![2])")
+            println("Freelan version \(version![0]) \(version![1]) \(version![2])")
             return true
         } else {
             return false
@@ -113,7 +113,7 @@ class SyncthingRunner: NSObject {
     
     func ensureRunning() -> (String?) {
         if !registerVersion() {
-            return "Could not determine syncthing version"
+            return "Could not determine freelan version"
         }
         let result = portFinder.findPort()
         // mop: ITS GO :O ZOMG!!111
@@ -194,12 +194,12 @@ class SyncthingRunner: NSObject {
                             let path = object[pathElement] as? String
                             
                             return id != nil && path != nil
-                        }).map({(object: AnyObject) -> (SyncthingFolder) in
+                        }).map({(object: AnyObject) -> (FreelanFolder) in
                             let id = object[idElement] as? String
                             let pathTemp = object[pathElement] as? String
                             let path = pathTemp?.stringByExpandingTildeInPath
                                                         
-                            return SyncthingFolder(id: id!, path: path!)
+                            return FreelanFolder(id: id!, path: path!)
                         })
                         
                         let folderData = ["folders": folderStructArr]

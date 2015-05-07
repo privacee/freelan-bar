@@ -1,6 +1,6 @@
 //
 //  SettingsWindowController.swift
-//  syncthing-bar
+//  freelan-bar
 //
 //  Created by Andreas Streichardt on 13.12.14.
 //  Copyright (c) 2014 mop. All rights reserved.
@@ -10,14 +10,14 @@ import Cocoa
 
 class LogWindowController: NSWindowController {
     @IBOutlet var view: NSTextView!
-    var log : SyncthingLog
+    var log : FreelanLog
     
     // mop: found in some blog...some workaround because windowNibName is not a designated init func
     override var windowNibName : String! {
         return "LogWindow"
     }
     
-    init(log : SyncthingLog) {
+    init(log : FreelanLog) {
         self.log = log
         super.init(window: nil)
     }

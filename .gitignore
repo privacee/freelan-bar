@@ -1,6 +1,7 @@
-syncthing/syncthing
-syncthing-bar.plist
-syncthing-bar.pkg
+freelan/freelan
+freelan/freelan.cfg
+freelan-bar.plist
+freelan-bar.pkg
 # Xcode
 .DS_Store
 build/

@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  syncthing-statusbar
+//  freelan-bar
 //
 //  Created by Andreas Streichardt on 12.12.14.
 //  Copyright (c) 2014 Andreas Streichardt. All rights reserved.

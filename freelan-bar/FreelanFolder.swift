@@ -1,6 +1,6 @@
 //
-//  SyncthingFolder.swift
-//  syncthing-bar
+//  FreelanFolder.swift
+//  freelan-bar
 //
 //  Created by Andreas Streichardt on 14.12.14.
 //  Copyright (c) 2014 mop. All rights reserved.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SyncthingFolder {
+class FreelanFolder {
     var id: NSString
     var path: NSString
     

@@ -1,6 +1,6 @@
 //
-//  SyncthingBar.swift
-//  syncthing-bar
+//  FreelanBar.swift
+//  freelan-bar
 //
 //  Created by Andreas Streichardt on 14.12.14.
 //  Copyright (c) 2014 mop. All rights reserved.
@@ -10,23 +10,23 @@ import Cocoa
 
 let FolderTag = 1
 
-class SyncthingBar: NSObject {
+class FreelanBar: NSObject {
     var statusBar: NSStatusBar = NSStatusBar.systemStatusBar()
     var statusBarItem : NSStatusItem = NSStatusItem()
     var menu : NSMenu = NSMenu()
     var openUIItem: NSMenuItem
     var url: NSString?
     var controller: LogWindowController?
-    var log : SyncthingLog
+    var log : FreelanLog
     
-    init(log : SyncthingLog) {
+    init(log : FreelanLog) {
         self.log = log
         //Add statusBarItem
         statusBarItem = statusBar.statusItemWithLength(-1)
         statusBarItem.menu = menu
         
         var size = NSSize(width: 18, height: 18)
-        var icon = NSImage(named: "syncthing-bar")
+        var icon = NSImage(named: "freelan-bar")
         // mop: that is the preferred way but the image is currently not drawn as it has to be and i am not an artist :(
         //icon?.setTemplate(true)
         icon?.size = size
@@ -69,7 +69,7 @@ class SyncthingBar: NSObject {
         openUIItem.enabled = false
     }
     
-    func setFolders(folders: Array<SyncthingFolder>) {
+    func setFolders(folders: Array<FreelanFolder>) {
         // mop: should probably check if anything changed ... but first simple stupid :S
         var item = menu.itemWithTag(FolderTag)
         while (item != nil) {
@@ -107,7 +107,7 @@ class SyncthingBar: NSObject {
     }
     
     func openFolderAction(sender: AnyObject) {
-        let folder = (sender as! NSMenuItem).representedObject as! SyncthingFolder
+        let folder = (sender as! NSMenuItem).representedObject as! FreelanFolder
         NSWorkspace.sharedWorkspace().openURL(NSURL(string: "file://\(folder.path)")!)
     }
     
