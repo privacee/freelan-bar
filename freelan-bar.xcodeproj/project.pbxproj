@@ -113,7 +113,6 @@
 				F1C594E41A3ED8830048CF9F /* FreelanLog.swift */,
 				F1F8A6371A4016180049AFC1 /* LogWindow.xib */,
 			);
-			name = "freelan-bar";
 			path = "freelan-bar";
 			sourceTree = "<group>";
 		};
@@ -131,7 +130,6 @@
 				F1B099191A3C40AE00B79D31 /* freelan_barTests.swift */,
 				F1B099171A3C40AE00B79D31 /* Supporting Files */,
 			);
-			name = "freelan-barTests";
 			path = "freelan-barTests";
 			sourceTree = "<group>";
 		};
