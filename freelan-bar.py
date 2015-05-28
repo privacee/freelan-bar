@@ -3,6 +3,8 @@
 import sys
 import rumps
 
+import freelan_configurator
+
 class FreelanStatusBarApp(rumps.App):
     #def __init__(self):
     #    super(CloudCryptorStatusBarApp, self).__init__("CloudCryptor")
@@ -25,7 +27,9 @@ class FreelanStatusBarApp(rumps.App):
 def main(argv):
     fl_app = FreelanStatusBarApp("Freelan")
 
-    fl_app.icon="freelan-bar.png"
+    fl_app.icon="freelan-bar_st_bw.png"
+    #fl_app.icon="freelan-bar_st.png"
+    #fl_app.icon="freelan-bar.png"
 
     fl_app.run()
 
