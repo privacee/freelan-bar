@@ -1,13 +1,13 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 APP = ['freelan-bar.py']
 DATA_FILES = [
-    'Resources/freelan-bar_st_bw.png',
-    'Resources/freelan-bar_st.png',
-    'Resources/freelan-bar.png']
+    'xcode-swift/Resources/freelan-bar_st_bw.png',
+    'xcode-swift/Resources/freelan-bar_st.png',
+    'xcode-swift/Resources/freelan-bar.png']
 OPTIONS = {
     'argv_emulation': True,
-    'iconfile':'Resources/freelan-bar.icns',
+    'iconfile':'xcode-swift/Resources/freelan-bar.icns',
     'plist': {
         'LSUIElement': True,
     },
@@ -20,8 +20,7 @@ setup(
     license='MIT',
     author='Christoph Russ',
     author_email='chruss@gmx.de',
-    packages=find_packages(),
-    scripts=['freelan-bar.py'],
+    packages='freelan-bar',
     app=APP,
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},
