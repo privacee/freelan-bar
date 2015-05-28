@@ -5,6 +5,7 @@ freelan-bar.pkg
 # Xcode
 .DS_Store
 build/
+dist/
 *.pbxuser
 !default.pbxuser
 *.mode1v3

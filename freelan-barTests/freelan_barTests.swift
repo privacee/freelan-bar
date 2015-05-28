@@ -1,6 +1,6 @@
 //
-//  syncthing_barTests.swift
-//  syncthing-barTests
+//  freelan_barTests.swift
+//  freelan-barTests
 //
 //  Created by Andreas Streichardt on 13.12.14.
 //  Copyright (c) 2014 mop. All rights reserved.
@@ -9,7 +9,7 @@
 import Cocoa
 import XCTest
 
-class syncthing_barTests: XCTestCase {
+class freelan_barTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

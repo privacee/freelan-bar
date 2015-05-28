@@ -12,9 +12,9 @@ import AppKit
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     //lazy var settingsWindowController = SettingsWindowController(windowNibName: "Settings")
-    var runner : FreelanRunner?
-    var freelanBar : FreelanBar?
-    var log : FreelanLog = FreelanLog()
+    var runner : UnisonRunner?
+    var unisonBar : UnisonBar?
+    var log : UnisonLog = UnisonLog()
     
     func applicationWillFinishLaunching(aNotification: NSNotification?) {
         NSApp.setActivationPolicy(NSApplicationActivationPolicy.Accessory)
@@ -22,8 +22,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
-        freelanBar = FreelanBar(log: log)
-        runner = FreelanRunner(log: log)
+        unisonBar = UnisonBar(log: log)
+        runner = UnisonRunner(log: log)
         let result = runner!.ensureRunning()
         if (result != nil) {
             let alert = NSAlert()

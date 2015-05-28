@@ -68,6 +68,37 @@ class FreelanRunner: NSObject {
     }
     
     func run() -> (String?) {
+        // FOR NOW WE WILL NOT RUN FREELAN - it's better off started through LaunchDaeomon
+        //
+        //return self.run_with_priviliges()
+        // cr: freelan requires sudo privileges as it wants to use tun/tap interface
+        // NSTask is not up to this task
+    }
+    
+    func run_with_priviliges() -> (String?) {
+        var pipe : NSPipe = NSPipe()
+        let readHandle = pipe.fileHandleForReading
+        
+        //task = NSTask()
+        //task!.launchPath = path as String
+        //task!.arguments = ["-d", "-f", "-c", "./freelan.cfg"]
+
+        //var authorizationRef = AuthorizationRef();
+        //var status = OSStatus();
+        //status = AuthorizationCreate(nil, nil, kAuthorizationFlagDefaults, authorizationRef);
+        //let authorized_task = AuthorizationExecuteWithPrivileges(authorizationRef, task?.launchPath,
+        //                                kAuthorizationFlagDefaults, task?.arguments, pipe);    }
+
+        let script = "do shell script \"\(inScript)\" with administrator privileges"
+        var appleScript = NSAppleScript(source: script)
+        var eventResult = appleScript.executeAndReturnError(nil)
+        if !eventResult {
+            return "ERROR"
+        }else{
+            return eventResult.stringValue
+        }
+        
+    func run_without_priviliges() -> (String?) {
         var pipe : NSPipe = NSPipe()
         let readHandle = pipe.fileHandleForReading
         
@@ -80,7 +111,7 @@ class FreelanRunner: NSObject {
         let port = self.port!
         let httpData : [String: String] = ["host": "127.0.0.1", "port": String(port)];
         
-        task!.arguments = ["-f", "--configuration_file", "./freelan.cfg"]
+        task!.arguments = ["-d", "-f", "-c", "./freelan.cfg"]
         task!.standardOutput = pipe
         readHandle.waitForDataInBackgroundAndNotify()
         task!.launch()
@@ -238,7 +269,7 @@ class FreelanRunner: NSObject {
         }
         lastFail = current
         
-        // RESTARTING to see if it may work this time ...
+        // cr: RESTARTING to see if it may work this time ...
         run()
     }
     

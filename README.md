@@ -13,16 +13,24 @@ This was forked off a project called `syncthing-bar`, which you can find here: h
 
 OS X 10.10 is required
 
+**Everything** you need to run `freelan` is required for `freelan-bar`
+http://www.freelan.org/download.html#osx
+
+Since TUN/TAP is required for `freelan`, it is also required for `freelan-bar`
+http://tuntaposx.sourceforge.net/index.xhtml
+
+
 ## To build/run
 
-1. Clone the repository in X-Code
+1. `git clone` the repository in X-Code or through the command-line
 2. Download freelan from http://freelan.org/
-3. Extract freelan from the provided package (e.g. using pacifist)
-4. Locate the "freelan" binary
-5. Copy the binary to your freelan-bar source repository in the folder "freelan"
-6. Open X-Code (binary/freelan should NOT be marked RED anymore)
-7. Hit the fancy play button :S
-8. it SHOULD run :S
+3. Extract freelan from the provided package (e.g. using [pacifist](http://charlessoft.com))
+4. Locate the `freelan` binary as well as the `freelan.cfg` config file and extract them
+5. Copy the binary and config file to your `freelan-bar` source repository in the folder `freelan`
+6. Adjust the config to your requirements (add contacts, etc.)
+7. Open X-Code (binary/freelan should NOT be marked RED anymore)
+8. Hit the fancy play button :S
+9. it SHOULD run :S
 
 ## Demo :O
 
@@ -30,7 +38,9 @@ OS X 10.10 is required
 
 ## Caveats
 
-`freelan-bar` is intended to provide quick access to common functionality. Please see the official `freelan` website for documentation of the latest features.
+`freelan-bar` is intended to provide quick access to common functionality and provide a simple user interface.
+Generally, the intended `freelan` functionality should still be edited inside the `freelan` config file.
+Please see the official `freelan` website for documentation of the latest features.
 
 ## Installation Package
 
